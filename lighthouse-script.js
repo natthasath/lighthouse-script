@@ -222,9 +222,17 @@ if (chromeProfileDir) {
   chromeFlags.push(`--headless`);
 
 }
+// Add the throttling method flag
+chromeFlags.push('--throttling-method=provided');
 
 const chrome = await chromeLauncher.launch({ chromeFlags });
-    const opts = { output: ['json', 'html'], onlyCategories: ['performance'], port: chrome.port };
+    const opts = { 
+      output: ['json', 'html'], 
+      onlyCategories: ['performance'], 
+      port: chrome.port,
+      // Add the throttling method to the lighthouse options
+      throttlingMethod: 'provided'
+     };
     const results = await lighthouse(url, opts);
     await chrome.kill();
 
